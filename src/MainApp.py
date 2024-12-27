@@ -28,14 +28,10 @@ class MainApp:
         self.ub = AppBarMaster(self.page, self, self.themer, self.APP_NAME, Icons.DASHBOARD)
 
         # page configuration
-        # self.page.theme_mode = ThemeMode.DARK
         self.page.adaptive = True
-        # self.page.bgcolor = self.page.theme.color_scheme.background
         self.page.padding = 15
 
-        # make frames
-        # self.make_frames()
-        # self.page.update()
+
 
         self.router = Routes(self.page, self)
         
@@ -43,30 +39,4 @@ class MainApp:
         
         self.page.go("/")
 
-    # def update(self):
-    #     self.page.update()
-    #     self.update_views()
-    #     self.dashboard.update()
-    #     self.motors.update()
-    #     self.clients.update()
-    #     self.billing.update()
-    #     self.settings.update()
-    #     self.page.update()
 
-    # def change_theme(self, e):
-    #     self.themer.change_theme(e)
-
-    # def make_frames(self):
-    #     self.dashboard_frame = self.dashboard.dashboard_frame
-    #     self.motors_frame = self.motors.motors_frame
-    #     self.clients_frame = self.clients.clients_frame
-    #     self.billing_frame = self.billing.billing_frame
-    #     self.settings_frame = self.settings.settings_frame
-
-    # def update_views(self):
-    #     for i in range(len(self.page.views)):
-    #         try:
-    #             self.page.views[i].appbar.update()
-    #         except:
-    #             pass
-    #         self.page.views[i].bgcolor = self.themer.current_theme.color_scheme.background
