@@ -61,7 +61,6 @@ class Routes:
                 self.main_app.dashboard.dashboard_frame,
             ],
             app_bar=self.main_app.dashboard.upperbar,
-            # bgcolor=self.main_app.themer.current_theme.color_scheme.background
         )
 
         self.motors_view = self.make_view(
@@ -70,7 +69,6 @@ class Routes:
                 self.main_app.motors.motors_frame,
             ],
             app_bar=self.main_app.motors.upperbar,
-            # bgcolor=self.main_app.motors.themer.current_theme.color_scheme.background
         )
 
         self.clients_view = self.make_view(
@@ -79,7 +77,6 @@ class Routes:
                 self.main_app.clients.clients_frame,
             ],
             app_bar=self.main_app.clients.upperbar,
-            # bgcolor=self.main_app.clients.themer.current_theme.color_scheme.background
         )
 
         self.billings_view = self.make_view(
@@ -88,7 +85,6 @@ class Routes:
                 self.main_app.billing.billing_frame,
             ],
             app_bar=self.main_app.billing.upperbar,
-            # bgcolor=self.main_app.billing.themer.current_theme.color_scheme.background
         )
 
         self.settings_view = self.make_view(
@@ -98,5 +94,4 @@ class Routes:
                 p
             ],
             app_bar=self.main_app.settings.upperbar,
-            # bgcolor=self.main_app.settings.themer.current_theme.color_scheme.background
         )
