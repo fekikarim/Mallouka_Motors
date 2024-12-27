@@ -446,13 +446,21 @@ def get_all_clients():
 
 
 def get_client_by_id(client_id):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT nom_complet, adresse, numero, mf FROM Clients WHERE id = ?", (client_id,))
+    client = cursor.fetchone()
+    conn.close()
+    return client
+
+
+def get_client_id(client_id):
     with get_db_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(
             "SELECT id FROM Clients WHERE id = ?", (client_id,)
         )
         return cursor.fetchone()
-
 
 #######################
 # Motor CRUD operations
