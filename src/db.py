@@ -1,6 +1,6 @@
 import sqlite3
 from datetime import datetime
-
+from flet import *
 
 def get_db_connection():
     conn = sqlite3.connect('storage/data/allocasseauto.db', timeout=10)
@@ -165,6 +165,38 @@ def search_billings(query):
     billings = cursor.fetchall()
     conn.close()
     return billings
+
+
+def get_all_billings(self):
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+                SELECT b.ref, b.total_price, b.client_id, b.mode_paiement, 
+                    b.description, b.transporteur, b.matricule, b.date,
+                    GROUP_CONCAT(m.motor_id, ', ') AS motors
+                FROM Billing b
+                LEFT JOIN Billing_Motors m ON b.ref = m.billing_ref
+                GROUP BY b.ref
+            """)
+            results = cursor.fetchall()
+        return results
+    
+    
+def update_total_price(app, motor=None):
+        total_price = 0.0
+        motors_column = app.add_billing_form.controls[4]
+
+        for control in motors_column.controls:
+            checkbox = control.controls[0]
+            quantity_field = control.controls[1]
+            if isinstance(checkbox, Checkbox) and checkbox.value:
+                motor_id = checkbox.label
+                quantity = int(quantity_field.value) if quantity_field.value else 0
+                price = get_motor_price(motor_id)
+                total_price += price * quantity
+
+        app.add_billing_form.controls[1].value = f"{total_price:.2f}"
+        app.page.update()
 
 
 
@@ -453,7 +485,7 @@ def delete_motor(motor_id):
     conn.commit()
     conn.close()
 
-def fetch_motors():
+def get_motors():
     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM Motors")
@@ -461,24 +493,48 @@ def fetch_motors():
     conn.close()
     return motors
 
+def fetch_motors():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT id, marque, modele, annee, kilometrage, prix, description, statut, date_achat, fournisseur, BL_facture FROM Motors")
+    motors = cursor.fetchall()
+    conn.close()
+    return motors
+
+def get_motor_by_id(motor_id):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT id, marque, modele, annee, kilometrage, prix, description, statut, date_achat, fournisseur, BL_facture FROM Motors WHERE id = ?", (motor_id,))
+    motor = cursor.fetchone()
+    conn.close()
+    return motor
+
+
+def fetch_motor_by_id(motor_id):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM Motors WHERE id = ?", (motor_id,))
+    motor = cursor.fetchone()
+    conn.close()
+    return motor
+
 def search_motors(query):
     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute("""
-        SELECT * FROM Motors WHERE
+        SELECT id, marque, modele, annee, kilometrage, prix, description, statut, date_achat, fournisseur, BL_facture FROM Motors WHERE
         id LIKE ? OR
         marque LIKE ? OR
         modele LIKE ? OR
         annee LIKE ? OR
         kilometrage LIKE ? OR
         prix LIKE ? OR
-        date_ajout LIKE ? OR
         description LIKE ? OR
         statut LIKE ? OR
         date_achat LIKE ? OR
         fournisseur LIKE ? OR
         BL_facture LIKE ?
-    """, (f"%{query}%",) * 12)
+    """, (f"%{query}%",) * 11)
     motors = cursor.fetchall()
     conn.close()
     return motors
