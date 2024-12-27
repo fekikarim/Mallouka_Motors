@@ -175,7 +175,7 @@ class Clients:
             controls=[
                 TextField(label="Nom Complet", value=form_fields[0]),
                 TextField(label="Adresse", value=form_fields[1]),
-                TextField(label="Numero", value=form_fields[2]),
+                TextField(label="Numero", value=form_fields[2], input_filter=InputFilter(allow=True, regex_string=r"^[0-9]*$", replacement_string=""), prefix_text="+216"),
                 TextField(label="MF", value=form_fields[3]),                
             ],
             alignment=MainAxisAlignment.CENTER,
