@@ -55,7 +55,7 @@ class Motors(UserControl):
             border=border.all(1, "black"),
             horizontal_lines=border.BorderSide(1, "black"),
             vertical_lines=border.BorderSide(1, "black"),
-            expand=True
+            expand=True,
         )
         
         
@@ -84,7 +84,6 @@ class Motors(UserControl):
                                         )
 
         self.edit_motor_id = None  # To store the ID of the motor being edited
-        # self.motor_update_form_fields = self.make_update_form_fields()
 
         self.title_container = Row(
             controls=[
@@ -312,6 +311,7 @@ class Motors(UserControl):
             ],
             actions_alignment=MainAxisAlignment.END,
             open=True,
+            scrollable=True,
         )
         self.page.update()
 
