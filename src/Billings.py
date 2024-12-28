@@ -1,23 +1,24 @@
 from flet import *
 from Themer import ThemerMaster
-from app_bar import AppBarMaster    
+from app_bar import AppBarMaster
 from db import *
+from billing_generator import generate_billing_pdf
 
 class Billings:
     def __init__(self, page: Page, parent_class, themer: ThemerMaster):
-        
+
         super().__init__()
-        
+
         self.page = page
         self.parent_class = parent_class
         self.themer = themer
         self.expand = True
-        
+
         self.page_name = "Allo Casse Auto - Billings"
         self.icon = Icons.PAYMENT
         self.ub = AppBarMaster(self.page, self.parent_class, self.themer, self.page_name, self.icon)
         self.upperbar = self.ub.app_bar_frame
-        
+
         self.billing_add_title = Container(
                         content=Column(
                             controls=[
@@ -28,18 +29,24 @@ class Billings:
                         margin=margin.only(top=20, bottom=20),
                         alignment=alignment.center,
                     )
-        
+
         self.billing_ref = TextField(label="ID - Reference", col={"md": 4})
         self.prix_totale = TextField(label="Prix Totale", col={"md": 4}, read_only=True)
         self.mode_paiement = TextField(label="Mode Paiment", col={"md": 4})
         self.description = TextField(label="Description", multiline=True, col={"md": 4})
         self.transporteur = TextField(label="transporteur", col={"md": 6})
         self.matricule = TextField(label="matricule", col={"md": 6})
-        
+
         self.client_dropdown = Dropdown(label="Client", col={"md": 4}, options=[])
-        self.selected_motors = []  # List of tuples (motor_id, quantity)
-        self.motors_tags_row = Row(alignment=MainAxisAlignment.CENTER, wrap=True, scroll="auto")
-        
+        self.motor_rows = []
+        self.motors_column = Column()
+        self.add_motor_button = IconButton(
+            icon=Icons.ADD,
+            style=ButtonStyle(shape=CircleBorder()),
+            on_click=self.add_new_motor_row,
+            col={"xs": 3, "sm": 4, "md": 3, "lg": 2},
+        )
+
         self.billing_list_title = Container(
                         content=Column(
                             controls=[
@@ -50,21 +57,20 @@ class Billings:
                         margin=margin.only(top=20, bottom=20),
                         alignment=alignment.center,
                     )
-        
-        self.search_bar = ResponsiveRow( 
+
+        self.search_bar = ResponsiveRow(
                                         controls=[
                                             TextField(
-                                                label="Search Billings", 
+                                                label="Search Billings",
                                                 on_change=self.on_search_change,
                                                 col={"md": 6},
                                                 ),
-                                            ], 
-                                        alignment=MainAxisAlignment.CENTER, 
-                                        spacing=10, 
-                                        expand=True,                                         
+                                            ],
+                                        alignment=MainAxisAlignment.CENTER,
+                                        spacing=10,
+                                        expand=True,
                                         )
-        
-        
+
         self.billings_data_table = DataTable(
                                             columns=[
                                                 DataColumn(Text("Action")),
@@ -84,20 +90,20 @@ class Billings:
                                             vertical_lines=border.BorderSide(1, "black"),
                                             expand=True,
                                         )
-        
+
         self.edit_billing_ref = None
-        
+
         self.billing_frame = self.make_frame()
-        
+
         self.controls = [
             self.billing_frame,
             self.upperbar,
         ]
-        
+
         self.load_billings()
         self._load_clients_for_dropdown()
-        
-        
+        self.add_new_motor_row()
+
     def _load_clients_for_dropdown(self):
         clients = get_all_clients_with_names()
         self.client_dropdown.options.clear()
@@ -105,108 +111,53 @@ class Billings:
             self.client_dropdown.options.append(dropdown.Option(key=client_id, text=client_name))
         self.page.update()
 
-
-    def _calculate_total_price(self):
-        total = 0.0
-        for motor_id, quantity in self.selected_motors:
-            price = get_motor_price(motor_id)
-            total += price * quantity
-        self.prix_totale.value = f"{total:.2f}"
-        self.page.update()
-        
-        
-    def _update_motor_tags(self):
-        self.motors_tags_row.controls.clear()
-        for motor_id, quantity in self.selected_motors:
-            self.motors_tags_row.controls.append(BillingMotorTag(self, motor_id, quantity))
-        self.page.update()
-
-    def remove_selected_motor(self, motor_id):
-        self.selected_motors = [(mid, qty) for mid, qty in self.selected_motors if mid != motor_id]
-        self._update_motor_tags()
-        self._calculate_total_price()
-        self.page.update()
-        
-        
-    def _open_select_motors_dialog(self, e):
+    def add_new_motor_row(self, e=None):
         available_motors = get_all_motors()
         motor_options = [dropdown.Option(key=motor['id'], text=f"{motor['id']} - {motor['marque']}") for motor in available_motors]
-        self.selected_motor_id = Dropdown(label="Motor", options=motor_options, col=6)
-        self.selected_motor_quantity = TextField(label="Quantity", value="1", col=6, keyboard_type=KeyboardType.NUMBER)
+        motor_id_dropdown = Dropdown(label="Motor ID", options=motor_options, col={"xs": 3, "sm": 4, "md": 3, "lg": 2}, on_change=self._calculate_total_price_dynamic)
+        quantity_field = TextField(label="Quantity", value="1", col={"xs": 3, "sm": 4, "md": 3, "lg": 2}, keyboard_type=KeyboardType.NUMBER, on_change=self._calculate_total_price_dynamic)
+        delete_button = IconButton(icon=icons.DELETE, style=ButtonStyle(shape=CircleBorder()), on_click=self.delete_motor_row, col={"xs": 3, "sm": 4, "md": 3, "lg": 2}, data=len(self.motor_rows))
 
-        def close_dialog(e):
-            self.page.close_dialog()
-
-        def add_motor(e):
-            motor_id = self.selected_motor_id.value
-            quantity = int(self.selected_motor_quantity.value) if self.selected_motor_quantity.value else 1
-            if motor_id and quantity > 0:
-                found = False
-                for i, (mid, qty) in enumerate(self.selected_motors):
-                    if mid == motor_id:
-                        self.selected_motors[i] = (mid, qty + quantity)
-                        found = True
-                        break
-                if not found:
-                    self.selected_motors.append((motor_id, quantity))
-                self._update_motor_tags()
-                self._calculate_total_price()
-                self.page.close_dialog()
-            else:
-                self.page.show_snack_bar(SnackBar(Text("Please select a motor and a valid quantity.")))
-
-        self.page.dialog = AlertDialog(
-            modal=True,
-            title=Text("Select Motors"),
-            content=Column([
-                self.selected_motor_id,
-                self.selected_motor_quantity,
-            ]),
-            actions=[
-                TextButton("Cancel", on_click=close_dialog),
-                ElevatedButton("Add Motor", on_click=add_motor),
-            ],
-            open=True,
+        motor_row = ResponsiveRow(
+            controls=[
+            motor_id_dropdown,
+            quantity_field,
+            delete_button,
+            self.add_motor_button,
+            ], 
+            alignment=MainAxisAlignment.CENTER
+            
         )
-        self.page.update()
-        
-    def open_edit_quantity_dialog(self, motor_id, current_quantity):
-        quantity_editor = TextField(label="Quantity", value=str(current_quantity), keyboard_type=KeyboardType.NUMBER)
 
-        def close_edit_dialog(e):
-            self.page.close_dialog()
-
-        def save_quantity(e):
-            new_quantity = int(quantity_editor.value) if quantity_editor.value else 0
-            if new_quantity > 0:
-                for i, (mid, qty) in enumerate(self.selected_motors):
-                    if mid == motor_id:
-                        self.selected_motors[i] = (mid, new_quantity)
-                        break
-                self._update_motor_tags()
-                self._calculate_total_price()
-                self.page.close_dialog()
-            else:
-                self.page.show_snack_bar(SnackBar(Text("Quantity must be greater than 0.")))
-
-        self.page.dialog = AlertDialog(
-            modal=True,
-            title=Text(f"Edit Quantity for {motor_id}"),
-            content=Column([
-                Text(f"Motor ID: {motor_id}"),
-                quantity_editor,
-            ]),
-            actions=[
-                TextButton("Cancel", on_click=close_edit_dialog),
-                ElevatedButton("Save", on_click=save_quantity),
-            ],
-            open=True,
-        )
+        self.motor_rows.append(motor_row)
+        self.motors_column.controls.append(motor_row)
         self.page.update()
 
+    def delete_motor_row(self, e):
+        index_to_delete = e.control.data
+        if 0 <= index_to_delete < len(self.motor_rows):
+            del self.motor_rows[index_to_delete]
+            self.motors_column.controls.clear()
+            for i, row in enumerate(self.motor_rows):
+                row.controls[-1].data = i  # Update the delete button's data
+                self.motors_column.controls.append(row)
+            self._calculate_total_price_dynamic()
+            self.page.update()
+
+    def _calculate_total_price_dynamic(self, e=None):
+        total = 0.0
+        for row in self.motor_rows:
+            motor_id_dropdown = row.controls[0]
+            quantity_field = row.controls[1]
+            if motor_id_dropdown.value and quantity_field.value:
+                price = get_motor_price(motor_id_dropdown.value)
+                quantity = int(quantity_field.value)
+                total += price * quantity
+        self.prix_totale.value = f"{total:.2f}"
+        self.page.update()
 
     def make_frame(self):
-        
+
         self.billing_frame = SafeArea(
             content=Column(
                 controls=[
@@ -215,13 +166,6 @@ class Billings:
                         [
                             self.billing_ref,
                             self.prix_totale,
-                            ElevatedButton(
-                                "Select Motors",
-                                icon=Icons.ADD_SHOPPING_CART,
-                                style=ButtonStyle(bgcolor='green', color='white', padding=15),
-                                col={"md": 4},
-                                on_click=self._open_select_motors_dialog
-                            ),
                             self.client_dropdown,
                             self.mode_paiement,
                             self.description,
@@ -231,6 +175,13 @@ class Billings:
                         alignment=MainAxisAlignment.CENTER,
                     ),
                     
+                    ResponsiveRow(
+                        controls=[
+                            self.motors_column,                            
+                            ], 
+                        alignment=MainAxisAlignment.CENTER
+                    ),
+
                     ResponsiveRow(
                         controls=[
                             ElevatedButton(
@@ -243,7 +194,7 @@ class Billings:
                             ),
                         ],
                         alignment=MainAxisAlignment.CENTER,
-                    ),                    
+                    ),
                     self.billing_list_title,
                     self.search_bar,
                     Container(
@@ -268,70 +219,15 @@ class Billings:
             ),
             expand=True,
         )
-        
+
         return self.billing_frame
-    
-    def billing_detail_view(self, billing_ref):
-        billing_data = get_billing_data(billing_ref)
-        if billing_data:
-            self.billing_ref.value = billing_data['ref']
-            self.billing_ref.disabled = True
-            self.prix_totale.value = str(billing_data['total_price'])
-            self.client_dropdown.value = billing_data['client_id']
-            self.mode_paiement.value = billing_data['mode_paiement']
-            self.description.value = billing_data['description']
-            self.transporteur.value = billing_data['transporteur']
-            self.matricule.value = billing_data['matricule']
-            self.selected_motors = get_selected_motors_by_billing_ref(billing_ref)
-            self._update_motor_tags()
 
-            return View(
-                route=f"/billing/{billing_ref}",
-                controls=[
-                    Text(f"Billing Details - Ref: {billing_ref}", style="headlineMedium"),
-                    self.billing_ref,
-                    self.prix_totale,
-                    self.client_dropdown,
-                    self.mode_paiement,
-                    self.description,
-                    self.transporteur,
-                    self.matricule,
-                    self.motors_tags_row,
-                    ElevatedButton("Back to Billings", on_click=lambda _: self.page.go("/billing")),
-                ],
-            )
-        else:
-            return View(
-                route=f"/billing/{billing_ref}",
-                controls=[
-                    Text("Billing not found.", style="headlineMedium"),
-                    ElevatedButton("Back to Billings", on_click=lambda _: self.page.go("/billing")),
-                ],
-            )
-            
-    
-    
-    def _update_motor_tags(self):
-        self.motors_tags_row.controls.clear()
-        for motor_id, quantity in self.selected_motors:
-            self.motors_tags_row.controls.append(BillingMotorTag(self, motor_id, quantity))
-        self.page.update()
-
-    def remove_selected_motor(self, motor_id):
-        self.selected_motors = [(mid, qty) for mid, qty in self.selected_motors if mid != motor_id]
-        self._update_motor_tags()
-        self._calculate_total_price()
-        self.page.update()
-    
     def add_billing(self, e):
         if not self.billing_ref.value:
             self.page.show_snack_bar(SnackBar(Text("Please enter a billing reference.")))
             return
         if not self.client_dropdown.value:
             self.page.show_snack_bar(SnackBar(Text("Please select a client.")))
-            return
-        if not self.selected_motors:
-            self.page.show_snack_bar(SnackBar(Text("Please select at least one motor.")))
             return
 
         billing_data = {
@@ -356,144 +252,162 @@ class Billings:
 
         try:
             insert_billing(insert_billing_header_data)
-            for motor_id, quantity in self.selected_motors:
-                insert_Billing_Motors((billing_data["billing_ref"], motor_id, quantity))
+            for row in self.motor_rows:
+                motor_id_dropdown = row.controls[0]
+                quantity_field = row.controls[1]
+                if motor_id_dropdown.value and quantity_field.value:
+                    insert_Billing_Motors((billing_data["billing_ref"], motor_id_dropdown.value, int(quantity_field.value)))
             self.page.show_snack_bar(SnackBar(Text("Billing Added Successfully")))
             self.clear_form()
             self.load_billings()
             self.page.update()
         except Exception as ex:
             self.page.show_snack_bar(SnackBar(Text(f"Error adding billing: {ex}")))
-        
-    
-    
-    
+
     def on_search_change(self, e):
         query = e.control.value
         self.load_billings(query)
+
+
+    def form_dialog_column(self, billing_data, billing_motors_data):
+        available_motors = get_all_motors()
+
+        form_controls = [
+            TextField(value=billing_data[0], label="ID - Reference", read_only=True, width=300),
+            TextField(value=billing_data[1], label="Prix Totale", read_only=True, width=300),
+            Dropdown(
+                label="Client",
+                options=[dropdown.Option(key=client[0], text=client[1]) for client in get_all_clients_with_names()],
+                value=str(billing_data[2]),
+                width=300
+            ),
+            TextField(value=billing_data[3], label="Mode Paiment", width=300),
+            TextField(value=billing_data[4], label="Description", multiline=True, width=300),
+            TextField(value=billing_data[5], label="transporteur", width=300),
+            TextField(value=billing_data[6], label="matricule", width=300),
+        ]
+
+        edit_motor_rows = []
+        edit_motors_column = Column()
         
-    def update_form(self, form_fields):
-        return SafeArea(
-                content=Column(
-                    controls=[
-                        self.billing_add_title,
-                        ResponsiveRow(
-                            [
-                                TextField(label="ID - Reference", value=form_fields[0], col={"md": 4}),
-                                TextField(label="Prix Totale", value=form_fields[1], col={"md": 4}),
-                                # the elevated button below needs to open an alert dialog to select motors from the motors list and quantity so it's basically a form that have an input dropdown that have motor_id options (where statut="Disponible") and an input text field for the quantity ; the client will choose a motor and it's quantity and then after clicking on add motor the dialog will close and the selected motor will be added in a one row that will have the motor_id tag with his quantity for example : "ABCD, 2" and then the client can add more motors by clicking on the button again ; also he can remove a motor by clicking on the "x" icon that will be on the right of each motor tag ; also he can edit the quantity by clicking on the motor tag and then a dialog will open with the motor_id and the quantity input text field so he can edit the quantity and then click on save to save the changes or cancel to cancel the changes
-                                # ElevatedButton(
-                                #     "Select Motors",
-                                #     icon=Icons.ADD_SHOPPING_CART,
-                                #     style=ButtonStyle(
-                                #         bgcolor='green',
-                                #         color='white',
-                                #         padding=15,
-                                #     ),
-                                #     col={"md": 4},
-                                #     on_click=lambda e: ...
-                                # ),
-                                
-                                # this dropdown below will have the clients list ; the options will be the clients names and the client will choose one of them ; by adding a billing the client id of the client which the user select will be added to the billing row
-                                # Dropdown(
-                                #     label="Client",
-                                #     options=[
-                                #         dropdown.Option("Rami"),
-                                #         dropdown.Option("Ahmed"),
-                                #         dropdown.Option("Sami"),
-                                #     ],
-                                #     col={"md": 4}
-                                # ),
-                                
-                                TextField(label="Mode Paiment", value=form_fields[4], col={"md": 4}),
-                                TextField(label="Description", value=form_fields[5], multiline=True, col={"md": 4}),
-                                TextField(label="transporteur", value=form_fields[6], col={"md": 6}),
-                                TextField(label="matricule", value=form_fields[7], col={"md": 6}),
-                                
-                                ElevatedButton(
-                                    text="Update",
-                                    icon=Icons.ADD,
-                                    style=ButtonStyle(bgcolor='green', color='white', padding=15, shape=ContinuousRectangleBorder(360)),
-                                    on_click=self.add_billing,
-                                    col={"md": 2},
-                                    expand=True,
-                                ),
-                                ElevatedButton(
-                                    text="Cancel",
-                                    icon=Icons.ADD,
-                                    style=ButtonStyle(bgcolor='green', color='white', padding=15, shape=ContinuousRectangleBorder(360)),
-                                    on_click=self.page.go("/billings"),
-                                    col={"md": 2},
-                                    expand=True,
-                                ),
-                                
-                            ],
-                            alignment=MainAxisAlignment.CENTER,
-                        ),
-                    ],
-                    horizontal_alignment=CrossAxisAlignment.CENTER,
-                ),
-                expand=True,
-            )
-        
-    def update_billing_subpage(self, billing_id):
-        self.edit_billing_id = billing_id
-        billing = get_billing_by_id(billing_id)
-        if billing:
-            client_form_col = self.update_form(billing)
+        def _calculate_update_total_price_dynamic(e=None):
+            total = 0.0
+            for row in edit_motor_rows:
+                motor_id_dropdown = row.controls[0]
+                quantity_field = row.controls[1]
+                if motor_id_dropdown.value and quantity_field.value:
+                    price = get_motor_price(motor_id_dropdown.value)
+                    quantity = int(quantity_field.value)
+                    total += price * quantity
+            form_controls[1].value = f"{total:.2f}"
             self.page.update()
-            
+
+        def add_new_edit_motor_row(e=None, motor_id=None, quantity=0):
+            motor_options = [dropdown.Option(key=motor['id'], text=f"{motor['id']} - {motor['marque']}") for motor in available_motors]
+            motor_dropdown = Dropdown(label="Motor ID", options=motor_options, col={"md": 3}, value=motor_id, on_change=_calculate_update_total_price_dynamic)
+            quantity_field = TextField(label="Quantity", value=str(quantity), col={"md": 3}, keyboard_type=KeyboardType.NUMBER, on_change=_calculate_update_total_price_dynamic)
+            delete_button = IconButton(icon=icons.DELETE, on_click=delete_edit_motor_row, col={"md": 3}, data=len(edit_motor_rows))
+
+            motor_row = ResponsiveRow(
+                controls=[
+                    motor_dropdown, 
+                    quantity_field, 
+                    delete_button,
+                ], 
+                alignment=MainAxisAlignment.SPACE_BETWEEN
+            )
+            edit_motor_rows.append(motor_row)
+            edit_motors_column.controls.append(motor_row)
+            self.page.update()
+
+        def delete_edit_motor_row(e):
+            index_to_delete = e.control.data
+            if 0 <= index_to_delete < len(edit_motor_rows):
+                del edit_motor_rows[index_to_delete]
+                edit_motors_column.controls.clear()
+                for i, row in enumerate(edit_motor_rows):
+                    row.controls[-1].data = i
+                    edit_motors_column.controls.append(row)
+                self.page.update()
+
+        # Populate existing motors
+        for motor in billing_motors_data:
+            print(motor)
+            add_new_edit_motor_row(motor_id=motor[0], quantity=motor[1])
+
+        add_motor_button = IconButton(icon=icons.ADD, on_click=add_new_edit_motor_row)
+        edit_motors_column.controls.append(add_motor_button)
+
+        form_controls.append(Text("Related Motors", weight="bold"))
+        form_controls.append(edit_motors_column)
+
+        return Column(controls=form_controls, width=400, scroll="adaptive")   
+    
+    def open_update_dialog(self, billing_ref):
+        self.edit_billing_ref = billing_ref
+        billing_data = get_billing_by_ref(billing_ref)
+        billing_motors_data = get_related_motors(billing_ref)
+
+        if billing_data:
+            update_form = self.form_dialog_column(billing_data, billing_motors_data)
             self.page.dialog = AlertDialog(
                 modal=True,
                 title=Text("Update Billing", size=24, weight='bold'),
-                content=client_form_col,
+                content=update_form,
                 actions=[
-                    TextButton(text="Cancel", on_click=lambda _: self.page.close_dialog()),
-                    TextButton(text="Update", on_click=lambda _: self.update_client_data(client_form_col)),
+                    TextButton("Cancel", on_click=lambda _: self.page.close_dialog()),
+                    TextButton("Update", on_click=lambda _: self.update_billing_data()),
                 ],
                 actions_alignment=MainAxisAlignment.END,
                 open=True,
                 scrollable=True,
             )
             self.page.update()
-            
-            
-    def update_client_data(self, form_fields):
+
+    def update_billing_data(self):
         if self.edit_billing_ref:
-            billing_data = {
-                "billing_ref": form_fields.controls[0].value,
-                "prix_totale": form_fields.controls[1].value,
-                #### motors - billing relation ; the client will select motors from the motors list and add them to the billing also he have the quantity of each motor
-                #### client - billing relation ; the user will select a client from the clients dropdown list and add it to the billing
-                "mode_paiement": form_fields.controls[4].value,
-                "description": form_fields.controls[5].value,
-                "transporteur": form_fields.controls[6].value,
-                "matricule": form_fields.controls[7].value,
+            dialog = self.page.dialog
+            form_controls = dialog.content.controls
+
+            updated_billing_data = {
+                "billing_ref": form_controls[0].value,
+                "total_price": float(form_controls[1].value),
+                "client_id": int(form_controls[2].value),
+                "mode_paiement": form_controls[3].value,
+                "description": form_controls[4].value,
+                "transporteur": form_controls[5].value,
+                "matricule": form_controls[6].value,
             }
-            
-            update_billing_data = (
-                billing_data["billing_ref"],
-                billing_data["prix_totale"],
-                #### motors - billing relation ; the client will select motors from the motors list and add them to the billing also he have the quantity of each motor
-                #### client - billing relation ; the user will select a client from the clients dropdown list and add it to the billing
-                billing_data["mode_paiement"],
-                billing_data["description"],
-                billing_data["transporteur"],
-                billing_data["matricule"],
-                self.edit_billing_ref
-            )                        
-            
-            update_billing(update_billing_data)
-            self.page.show_snack_bar(SnackBar(Text(f"{billing_data["billing_ref"]} Updated Successfully")))
-            self.page.go("/billings")
+
+            update_billing_header_data = (
+                updated_billing_data["total_price"],
+                updated_billing_data["client_id"],
+                updated_billing_data["mode_paiement"],
+                updated_billing_data["description"],
+                updated_billing_data["transporteur"],
+                updated_billing_data["matricule"],
+                self.edit_billing_ref,
+            )
+            update_billing(update_billing_header_data)
+
+            # Update related motors
+            delete_Billing_Motors_by_billing_ref(self.edit_billing_ref)
+
+            motor_id = str(dialog.content.controls[8].controls[1].controls[0].value)
+            quantity = int(dialog.content.controls[8].controls[1].controls[1].value)
+            if motor_id and quantity > 0:
+                insert_Billing_Motors((self.edit_billing_ref, motor_id, quantity))
+
+            self.page.show_snack_bar(SnackBar(Text(f"Billing with Ref {self.edit_billing_ref} updated!")))
+            self.page.close_dialog()
             self.load_billings()
             self.page.update()
             self.edit_billing_ref = None
             
-            
     def confirm_delete(self, e):
         billing_ref = e
         delete_billing(billing_ref)
+        delete_Billing_Motors(billing_ref)
         self.page.show_snack_bar(SnackBar(Text(f"Billing with Ref {billing_ref} deleted!")))
         self.load_billings()
         self.page.close_dialog()
@@ -514,7 +428,14 @@ class Billings:
             scrollable=True,
         )
         self.page.update()
-            
+        
+        
+    def generate_billing_pdf_button_click(self, e, billing_ref):
+        output_path = f"billing_{billing_ref}.pdf"
+        generate_billing_pdf(billing_ref)
+        self.page.snack_bar = SnackBar(Text(f"Billing PDF generated: {output_path}"))
+        self.page.snack_bar.open = True
+        self.page.update()
 
     def load_billings(self, query=""):
 
@@ -526,19 +447,20 @@ class Billings:
         self.billings_data_table.rows.clear()
 
         for billing in billings:
-            
+
             # Fetch related motors and their quantities for the current billing
             related_motors = get_related_motors(billing[0])  # Assuming billing[0] is the billing reference
             motors_info = ", ".join([f"{motor[0]} (Qty: {motor[1]})" for motor in related_motors])
-        
+
             self.billings_data_table.rows.append(
                 DataRow(
                     cells=[
                         DataCell(
                             Row(
                                 [
-                                    IconButton(icon=icons.EDIT, on_click=lambda e, billing_ref=billing[0]: self.page.go(f"/billing/{billing_ref}"), data=billing[0]),
-                                    IconButton(icon=icons.DELETE, on_click=self.delete_billing_handler, data=billing[0]),
+                                    IconButton(icon=Icons.SELL, on_click=lambda e, billing_ref=billing[0]: self.generate_billing_pdf_button_click(e, billing_ref)),
+                                    IconButton(icon=Icons.EDIT, on_click=lambda e, billing_ref=billing[0]: self.open_update_dialog(billing_ref), data=billing[0]),
+                                    IconButton(icon=Icons.DELETE, on_click=self.delete_billing_handler, data=billing[0]),
                                 ],
                                 alignment=MainAxisAlignment.CENTER
                             )
@@ -552,9 +474,9 @@ class Billings:
                         DataCell(Text(billing[6])), # matricule
                         DataCell(Text(billing[7])), # date
                         DataCell(Text(motors_info)), # related motors with quantities
-                        
+
                     ],
-                ) 
+                )
             )
 
         self.page.update()
@@ -562,12 +484,14 @@ class Billings:
     def clear_form(self):
         self.billing_ref.value = ""
         self.prix_totale.value = ""
-        self.motors_tags = None
-        self.client_id.value = ""
+        self.client_dropdown.value = None
         self.mode_paiement.value = ""
         self.description.value = ""
         self.transporteur.value = ""
         self.matricule.value = ""
+        self.motor_rows.clear()
+        self.motors_column.controls.clear()
+        self.add_new_motor_row() # Add at least one empty row
         self.page.update()
 
     def update(self) -> None:
@@ -588,27 +512,3 @@ class Billings:
 
     def will_unmount(self):
         self.is_mounted = False
-        
-        
-        
-
-class BillingMotorTag():
-    def __init__(self, parent, motor_id, quantity):
-        super().__init__()
-        self.parent = parent
-        self.motor_id = motor_id
-        self.quantity = quantity
-
-    def build(self):
-        return Chip(
-            label=Text(f"{self.motor_id}, {self.quantity}"),
-            on_delete=self.delete_tag,
-            on_click=self.edit_quantity,
-            delete_icon_color=colors.RED_500,
-        )
-
-    def delete_tag(self, e):
-        self.parent.remove_selected_motor(self.motor_id)
-
-    def edit_quantity(self, e):
-        self.parent.open_edit_quantity_dialog(self.motor_id, self.quantity)
