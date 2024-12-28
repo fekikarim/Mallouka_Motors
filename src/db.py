@@ -158,6 +158,14 @@ def fetch_billing():
     conn.close()
     return billings
 
+def get_billing_by_id(billing_ref):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT ref, total_price, client_id, mode_paiement, description, transporteur, matricule FROM Billing WHERE ref = ?", (billing_ref,))
+    billing = cursor.fetchone()
+    conn.close()
+    return billing
+
 def search_billings(query):
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -165,6 +173,38 @@ def search_billings(query):
     billings = cursor.fetchall()
     conn.close()
     return billings
+
+
+def get_all_billings_with_motors():
+    with get_db_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute("""
+            SELECT b.ref, b.total_price, b.client_id, b.mode_paiement,
+                   b.description, b.transporteur, b.matricule, b.date,
+                   GROUP_CONCAT(bm.motor_id || ',' || bm.quantity) AS motors
+            FROM Billing b
+            LEFT JOIN Billing_Motors bm ON b.ref = bm.billing_ref
+            GROUP BY b.ref
+        """)
+        results = cursor.fetchall()
+    return results
+
+
+def search_billings_with_motors(query):
+    with get_db_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute("""
+            SELECT b.ref, b.total_price, b.client_id, b.mode_paiement,
+                   b.description, b.transporteur, b.matricule, b.date,
+                   GROUP_CONCAT(bm.motor_id || ',' || bm.quantity) AS motors
+            FROM Billing b
+            LEFT JOIN Billing_Motors bm ON b.ref = bm.billing_ref
+            WHERE b.ref LIKE ? OR b.total_price LIKE ? OR b.client_id LIKE ? OR b.mode_paiement LIKE ? OR b.description LIKE ? OR b.transporteur LIKE ? OR b.matricule LIKE ?
+            GROUP BY b.ref
+        """, ('%' + query + '%',) * 7)
+        results = cursor.fetchall()
+    return results
+
 
 
 def get_all_billings(self):
@@ -180,7 +220,9 @@ def get_all_billings(self):
             """)
             results = cursor.fetchall()
         return results
-    
+
+
+
     
 def update_total_price(app, motor=None):
         total_price = 0.0
@@ -361,6 +403,9 @@ def search_Billing_Motors(query):
     return Billing_Motors
 
 
+
+
+
 def get_selected_motors_by_billing_ref(billing_ref):
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -444,6 +489,12 @@ def get_all_clients():
         cursor.execute("SELECT id FROM Clients")
         return [row[0] for row in cursor.fetchall()]
 
+
+def get_all_clients_with_names():
+    with get_db_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, nom_complet FROM Clients")
+        return cursor.fetchall()
 
 def get_client_by_id(client_id):
     conn = get_db_connection()
