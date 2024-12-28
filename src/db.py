@@ -119,7 +119,7 @@ def update_billing(data):
     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute(
-        "UPDATE Billing SET total_price = ?, client_id = ?, mode_paiement = ?, description = ?, transporteur = ?, matricule = ?, date = ?  WHERE ref = ?", 
+        "UPDATE Billing SET total_price = ?, client_id = ?, mode_paiement = ?, description = ?, transporteur = ?, matricule = ? WHERE ref = ?", 
         data
     )
     conn.commit()
@@ -363,7 +363,7 @@ def insert_Billing_Motors(data):
     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute(
-        "INSERT INTO Billing_Motors (billing_ref, motor_id) VALUES (?, ?)", 
+        "INSERT INTO Billing_Motors (billing_ref, motor_id, quantity) VALUES (?, ?, ?)",
         data
     )
     conn.commit()
@@ -403,7 +403,21 @@ def search_Billing_Motors(query):
     return Billing_Motors
 
 
+def get_billing_by_ref(billing_ref):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT ref, total_price, client_id, mode_paiement, description, transporteur, matricule, date FROM Billing WHERE ref = ?", (billing_ref,))
+    billing = cursor.fetchone()
+    conn.close()
+    return billing
 
+
+def delete_Billing_Motors_by_billing_ref(billing_ref):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM Billing_Motors WHERE billing_ref = ?", (billing_ref,))
+    conn.commit()
+    conn.close()
 
 
 def get_selected_motors_by_billing_ref(billing_ref):
