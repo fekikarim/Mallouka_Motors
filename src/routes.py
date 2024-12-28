@@ -17,15 +17,6 @@ class Routes:
             self.page.views.append(self.motors_view)
         elif self.page.route == "/clients":
             self.page.views.append(self.clients_view)
-        elif self.page.route.startswith("/billing/"):
-            parts = self.page.route.split("/")
-            if len(parts) == 3 and parts[1] == "billing":
-                try:
-                    billing_ref = parts[2]
-                    self.page.views.append(self.main_app.billing.billing_detail_view(billing_ref))
-                except Exception as e:
-                    print(f"Error navigating to billing detail: {e}")
-                    self.page.go("/billing")
         elif self.page.route == "/billing":
             self.page.views.append(self.billings_view)
         elif self.page.route == "/settings":
