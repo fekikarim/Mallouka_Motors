@@ -33,6 +33,11 @@ class ThemerMaster:
         #     ),
         # )
         
+        self.surface_variant = "#1f1f1f"
+        self.outline = "#2d2d2d"
+        self.secondary_container = "#101010"
+        self.outline_variant = "#2a2a2a"
+        
         self.theme_switch = ft.Switch(
             label="Theme Mode: ",
             label_position=ft.LabelPosition.LEFT,
