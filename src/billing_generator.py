@@ -32,7 +32,10 @@ def generate_billing_pdf(billing_ref):
     add_payment_info(c, billing_data, height)
 
     # Add terms and conditions
-    add_terms_and_conditions(c, width, height)
+    terms_y_position = add_terms_and_conditions(c, width, height)
+    
+    # Add signature
+    add_signature(c, width, terms_y_position)
 
     # Save the PDF
     c.save()
@@ -40,8 +43,8 @@ def generate_billing_pdf(billing_ref):
 
 def add_logos(c, width, height):
     # Paths to logo images
-    mallouka_logo_path = os.path.join('src', 'assets', 'mallouka_motors_logo.png')
-    allo_casse_logo_path = os.path.join('src', 'assets', 'allo_casse_auto_logo.jpg')
+    mallouka_logo_path = os.path.join('src', 'assets', 'logo', 'mallouka_motors_logo.png')
+    allo_casse_logo_path = os.path.join('src', 'assets', 'logo', 'allo_casse_auto_logo.jpg')
 
     # Load logo images
     mallouka_logo = ImageReader(mallouka_logo_path)
@@ -218,7 +221,8 @@ def add_terms_and_conditions(c, width, height):
     c.setFont('Helvetica', 8)
 
     # Add "NB:" as a title
-    c.drawString(40, height - 560, "NB:")
+    nb_y = height - 560
+    c.drawString(40, nb_y, "NB:")
 
     # Define terms and wrap them to fit within the page width
     terms = (
@@ -228,7 +232,7 @@ def add_terms_and_conditions(c, width, height):
     # Set the maximum width for text wrapping
     max_width = width - 80  # Leave 40 px margin on both sides
     x = 40  # Starting x position (aligned to left margin)
-    y = height - 580  # Starting y position
+    y = nb_y - 20 # Starting y position below "NB:"
 
     # Split the text into lines that fit within max_width
     wrapped_lines = []
@@ -250,3 +254,17 @@ def add_terms_and_conditions(c, width, height):
     for line in wrapped_lines:
         c.drawString(x, y, line)
         y -= 12  # Move down by 12 px for the next line
+
+    return y # Return the final y position after drawing terms
+
+def add_signature(c, width, terms_y_position):
+    signature_path = os.path.join('src', 'assets', 'signature.png')
+    if os.path.exists(signature_path):
+        signature = ImageReader(signature_path)
+        signature_width = 150  
+        signature_height = 75  
+        x = width - signature_width - 40  # Right align with margin
+        y = terms_y_position - signature_height - 10 # Position below terms with some margin
+        c.drawImage(signature, x, y, width=signature_width, height=signature_height, mask='auto')
+    else:
+        print(f"Signature image not found at {signature_path}")
