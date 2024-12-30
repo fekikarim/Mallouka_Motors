@@ -53,7 +53,7 @@ class AppBarMaster():
             ],
             center_title=True,
             color="white",
-            bgcolor="green",
+            bgcolor="#2D96DA",
         )
         
         return self.upperbar
