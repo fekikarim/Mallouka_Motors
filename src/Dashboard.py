@@ -285,17 +285,23 @@ class Dashboard:
                                 ),
                                 alignment=alignment.center,
                                 col={"sm": 12, "md": 6},
-                            ),
-                            
-                            ElevatedButton(
-                                "View Details",
-                                style=ButtonStyle(shape=RoundedRectangleBorder(radius=180)),
-                                on_click=lambda _: self.page.go("/motors"),
-                                expand=True,  # Expands the button width                                
-                            ),
+                            ),                                                        
                         ],
                         alignment=MainAxisAlignment.CENTER,
                         run_spacing={"xs": 10},
+                    ),
+                    ResponsiveRow(
+                        controls=[
+                            ElevatedButton(
+                                "View Details",
+                                style=ButtonStyle(shape=RoundedRectangleBorder(radius=100)),
+                                on_click=lambda _: self.page.go("/motors"),
+                                expand=True,  # Expands the button width     
+                                col={"xs": 4, "sm": 4, "md": 3, "lg": 2},                      
+                            ),
+                        ],
+                        alignment=MainAxisAlignment.CENTER,
+                        expand=True,
                     ),
                     Divider(height=50),
                     ResponsiveRow(
@@ -311,18 +317,23 @@ class Dashboard:
                                 ),
                                 alignment=alignment.center,
                                 col={"sm": 12, "md": 6},
-                            ),
-                            
-                            ElevatedButton(
-                                "View Details",
-                                style=ButtonStyle(shape=RoundedRectangleBorder(radius=180)),
-                                on_click=lambda _: self.page.go("/clients"),
-                                expand=True,
-                            ),
-
+                            ),                            
                         ],
                         alignment=MainAxisAlignment.CENTER,
                         run_spacing={"xs": 10},
+                    ),
+                    ResponsiveRow(
+                        controls=[
+                            ElevatedButton(
+                                "View Details",
+                                style=ButtonStyle(shape=RoundedRectangleBorder(radius=100)),
+                                on_click=lambda _: self.page.go("/clients"),
+                                expand=True,
+                                col={"xs": 4, "sm": 4, "md": 3, "lg": 2},
+                            ),
+                        ],
+                        alignment=MainAxisAlignment.CENTER,
+                        expand=True,
                     ),
                     Divider(height=50),
                     ResponsiveRow(
@@ -338,18 +349,23 @@ class Dashboard:
                                 ),
                                 alignment=alignment.center,
                                 col={"sm": 12, "md": 6},
-                            ),
-                            
-                            ElevatedButton(
-                                "View Details",
-                                style=ButtonStyle(shape=RoundedRectangleBorder(radius=180)),
-                                on_click=lambda _: self.page.go("/billing"),
-                                expand=True,
-                            ),
-                            
+                            ),                                                                                    
                         ],
                         alignment=MainAxisAlignment.CENTER,
                         run_spacing={"xs": 10},
+                    ),
+                    ResponsiveRow(
+                        controls=[
+                            ElevatedButton(
+                                "View Details",
+                                style=ButtonStyle(shape=RoundedRectangleBorder(radius=100)),
+                                on_click=lambda _: self.page.go("/billing"),
+                                expand=True,
+                                col={"xs": 4, "sm": 4, "md": 3, "lg": 2},
+                            ),
+                        ],
+                        alignment=MainAxisAlignment.CENTER,
+                        expand=True,
                     ),
                 ],
                 horizontal_alignment=CrossAxisAlignment.CENTER,
