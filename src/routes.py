@@ -44,17 +44,6 @@ class Routes:
 
     def create_app_views(self):
         
-        p = Container(
-                content=Column(
-                    controls=[
-                        self.main_app.themer.theme_switch,
-                    ],
-                    horizontal_alignment=CrossAxisAlignment.CENTER,
-                ),
-                margin=margin.only(top=20, bottom=20),
-                alignment=alignment.center,
-            )
-        
         self.main_view = self.make_view(
             '/',
             [
@@ -91,7 +80,6 @@ class Routes:
             '/settings',
             [
                 self.main_app.settings.settings_frame,
-                p
             ],
             app_bar=self.main_app.settings.upperbar,
         )
