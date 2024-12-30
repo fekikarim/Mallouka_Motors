@@ -1,5 +1,3 @@
-![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)
-
 # Allo Casse Auto by Mallouka Motors
 
 ![Project Demo](src/assets/demo/demo_mallouka_motors.gif)
@@ -60,6 +58,7 @@ The application boasts a clean and user-friendly interface, prioritizing efficie
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
+![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)
 
 ## Contact: 
 
