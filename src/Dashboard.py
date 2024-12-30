@@ -175,6 +175,7 @@ class Dashboard:
         
         return chart
 
+
     def create_billing_chart(self):
         conn = get_db_connection()
         cursor = conn.cursor()
@@ -223,6 +224,7 @@ class Dashboard:
         
         return chart
 
+
     def make_frame(self):
         metrics = self.get_dashboard_metrics()
         self.dashboard_frame = SafeArea(
@@ -241,7 +243,7 @@ class Dashboard:
                     ResponsiveRow(
                         controls=[
                             Image(
-                                src=f"./mallouka_motors_logo.png",
+                                src=f"./logo/mallouka_motors_logo.png",
                                 width=150,
                                 height=150,
                                 fit=ImageFit.CONTAIN
@@ -264,10 +266,19 @@ class Dashboard:
                     Divider(height=4),
                     ResponsiveRow(
                         controls=[
+                            Text("Disponible", size=16, color=Colors.PRIMARY_CONTAINER, weight=FontWeight.BOLD, col={"xs": 4, "sm": 4, "md": 3, "lg": 2}, expand=True),
+                            Text("Reserve", size=16, color=Colors.PURPLE, weight=FontWeight.BOLD, col={"xs": 4, "sm": 4, "md": 3, "lg": 2}, expand=True),
+                            Text("Vendu", size=16, color=Colors.TERTIARY_CONTAINER, weight=FontWeight.BOLD, col={"xs": 4, "sm": 4, "md": 3, "lg": 2}, expand=True),
+                        ],
+                        alignment=MainAxisAlignment.CENTER,
+                        expand=True,
+                    ),
+                    ResponsiveRow(
+                        controls=[
                             Container(
                                 content=Column(
                                     controls=[
-                                        self.motor_chart,  # The chart goes here                                        
+                                        self.motor_chart,  # The chart goes here                                    
                                     ],
                                     alignment=MainAxisAlignment.CENTER,  # Center both chart and button
                                     spacing=10,  # Space between chart and button
