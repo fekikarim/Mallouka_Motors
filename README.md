@@ -1,3 +1,5 @@
+![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)
+
 # Allo Casse Auto by Mallouka Motors
 
 ![Project Demo](src/assets/demo/demo_mallouka_motors.gif)
