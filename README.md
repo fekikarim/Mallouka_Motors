@@ -47,8 +47,6 @@ The application boasts a clean and user-friendly interface, prioritizing efficie
 4. Push your changes to your forked repository.
 5. Submit a pull request to the main repository.
 
-* Please ensure your code adheres to the existing style and includes appropriate tests.
-
 ## Acknowledgments
 
 * This project was developed as a freelance assignment for Mallouka Motors. Special thanks to them for the opportunity to contribute to their business operations.
