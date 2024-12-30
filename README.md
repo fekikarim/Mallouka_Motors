@@ -1,4 +1,4 @@
-# Allo Casse Auto by Mallouka Motors
+# Mallouka Motors
 
 ![Project Demo](src/assets/demo/demo_mallouka_motors.gif)
 
@@ -6,7 +6,7 @@
 
 ## About the Project
 
-**Allo Casse Auto** is a user-friendly desktop and mobile application designed to streamline the operations of Mallouka Motors. Developed with Python and the Flet framework, along with a robust SQLite database, this application provides a comprehensive solution for managing various aspects of the business, from client and motor inventory to billing and settings.
+**Mallouka Motors** is a user-friendly desktop and mobile application designed to streamline the operations of Mallouka Motors. Developed with Python and the Flet framework, along with a robust SQLite database, this application provides a comprehensive solution for managing various aspects of the business, from client and motor inventory to billing and settings.
 
 This project was completed as a freelance endeavor by Karim Feki for Mallouka Motors. The client has expressed great satisfaction with the final product, highlighting its efficiency and ease of use.
 
