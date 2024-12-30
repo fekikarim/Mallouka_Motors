@@ -1,6 +1,8 @@
 # Allo Casse Auto by Mallouka Motors
 
-![Project Demo](link-to-your-demo.gif)
+![Project Demo](src/assets/demo/demo_mallouka_motors.gif)
+
+![Mallouka Motors Logo](src/assets/logo/mallouka_motors_logo.png)
 
 ## About the Project
 
