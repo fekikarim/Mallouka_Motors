@@ -32,8 +32,8 @@ class Billings:
 
         self.billing_ref = TextField(label="ID - Reference", col={"md": 4})
         self.prix_totale = TextField(label="Prix Totale", col={"md": 4}, read_only=True)
-        self.mode_paiement = TextField(label="Mode Paiment", col={"md": 4})
-        self.description = TextField(label="Description", multiline=True, col={"md": 4})
+        self.mode_paiement = TextField(label="Mode Paiment", col={"md": 6})
+        self.description = TextField(label="Description", multiline=True, col={"md": 6})
         self.transporteur = TextField(label="transporteur", col={"md": 6})
         self.matricule = TextField(label="matricule", col={"md": 6})
 
@@ -458,7 +458,7 @@ class Billings:
                         DataCell(
                             Row(
                                 [
-                                    IconButton(icon=Icons.SELL, on_click=lambda e, billing_ref=billing[0]: self.generate_billing_pdf_button_click(e, billing_ref)),
+                                    IconButton(icon=Icons.PICTURE_AS_PDF, on_click=lambda e, billing_ref=billing[0]: self.generate_billing_pdf_button_click(e, billing_ref)),
                                     IconButton(icon=Icons.EDIT, on_click=lambda e, billing_ref=billing[0]: self.open_update_dialog(billing_ref), data=billing[0]),
                                     IconButton(icon=Icons.DELETE, on_click=self.delete_billing_handler, data=billing[0]),
                                 ],
