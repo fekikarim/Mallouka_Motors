@@ -1,8 +1,24 @@
 # Mallouka Motors
 
-![Project Demo](src/assets/demo/demo_mallouka_motors.gif)
+<p align="center">
+  <img width="320" src="src/assets/demo/demo_mallouka_motors.gif">
+</p>
 
-![Mallouka Motors Logo](src/assets/logo/mallouka_motors_logo.png)
+<p align="center">
+  <img width="320" src="src/assets/logo/mallouka_motors_logo.png">
+</p>
+
+<p align="center">
+  <a href="https://flet.dev/docs/getting-started">
+    <img src="https://img.shields.io/badge/Flet-0.25.2-blue?style=flat-square" alt="flet">
+  </a>
+  <a href="https://sqlite.org">
+    <img src="https://img.shields.io/badge/SQLite-3.47.2-rgb(0%2C%2059%2C%2087)?style=flat-square&logo=sqlite" alt="SQLite">
+  </a>
+  <a href="https://github.com/fekikarim/Mallouka_Motors/blob/main/LICENSE">
+    <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="license">
+  </a>
+</p>
 
 ## About the Project
 
@@ -58,8 +74,6 @@ The application boasts a clean and user-friendly interface, prioritizing efficie
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
-
-![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)
 
 ## Contact: 
 
