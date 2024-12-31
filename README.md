@@ -16,7 +16,7 @@
     <img src="https://img.shields.io/badge/SQLite-3.47.2-rgb(0%2C%2059%2C%2087)?style=flat-square&logo=sqlite" alt="SQLite">
   </a>
   <a href="https://github.com/fekikarim/Mallouka_Motors/blob/main/LICENSE">
-    <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="license">
+    <img src="https://img.shields.io/badge/License-MIT-brightgreen?style=flat-square" alt="license">
   </a>
 </p>
 
