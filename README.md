@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <img width="190" src="src/assets/logo/mallouka_motors_logo.svg">
+  <img width="200" src="src/assets/logo/mallouka_motors_logo.svg">
 </p>
 
 <p align="center">
