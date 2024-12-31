@@ -1,11 +1,11 @@
-# Mallouka Motors
+<h1 align="center">Mallouka Motors</h1>
 
 <p align="center">
-  <img width="320" src="src/assets/demo/demo_mallouka_motors.gif">
+  <img width="426" src="src/assets/demo/demo_mallouka_motors.gif">
 </p>
 
 <p align="center">
-  <img width="320" src="src/assets/logo/mallouka_motors_logo.png">
+  <img width="210" src="src/assets/logo/mallouka_motors_logo.png">
 </p>
 
 <p align="center">
