@@ -1,11 +1,14 @@
 [project]
-name = "malloukauv"
+name = "Mallouka_Motors"
 version = "0.1.0"
 description = ""
 readme = "README.md"
 requires-python = ">=3.8"
 dependencies = [
-  "flet==0.25.2"
+  "flet==0.25.2",
+  "reportlab",
+  "collection",
+  "db-sqlite3"
 ]
 
 
@@ -16,7 +19,7 @@ org = "com.mycompany"
 
 # project display name that is used as an app title on Android and iOS home screens,
 # shown in window titles and about app dialogs on desktop.
-product = "malloukauv"
+product = "Mallouka_Motors"
 
 # company name to display in about app dialogs
 company = "Flet"
