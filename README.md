@@ -7,13 +7,13 @@
 <img width="180" src="src/assets/logo/mallouka_motors_logo.svg" alt="Mallouka Motors Logo">
 <br>
 <img width="500" src="src/assets/demo/demo_mallouka_motors.gif" alt="Mallouka Motors Demo">
-
+<br>
 [![Python](https://skillicons.dev/icons?i=python)](https://python.org)
 <a href="https://flet.dev">
  <img src="https://flet.dev/img/logo.svg" alt="Flet Logo" width="50">
 </a>
 [![SQLite](https://skillicons.dev/icons?i=sqlite)](https://sqlite.org)
-<br>
+<br><br>
 [![License](https://img.shields.io/badge/License-MIT-brightgreen?style=for-the-badge)](LICENSE)
 
 ---
@@ -36,6 +36,8 @@ This project represents a successful freelance collaboration between **Karim Fek
 
 ### 🌙 Dark Mode Interface
 <img width="600" src="src/assets/demo/demo_dash_dark.png" alt="Dark Mode Dashboard">
+
+<br>
 
 ### ☀️ Light Mode Interface
 <img width="600" src="src/assets/demo/demo_dash_light.png" alt="Light Mode Dashboard">
@@ -94,7 +96,9 @@ This project represents a successful freelance collaboration between **Karim Fek
 
 ### Core Technologies
 [![Python](https://skillicons.dev/icons?i=python)](https://python.org)
-[![Flet](https://skillicons.dev/icons?i=flet)](https://flet.dev)
+<a href="https://flet.dev">
+ <img src="https://flet.dev/img/logo.svg" alt="Flet Logo" width="50">
+</a>
 [![SQLite](https://skillicons.dev/icons?i=sqlite)](https://sqlite.org)
 
 ### Key Libraries & Tools
@@ -226,14 +230,16 @@ flet run src/main.py
 <td align="center" width="50%">
 <br>
 <strong>🏢 Mallouka Motors</strong>
-<br><br>
+<br>
 <em>For trusting us with their digital transformation journey and providing the opportunity to create this comprehensive business solution that revolutionizes motor dealership operations.</em>
+<br>
 </td>
 <td align="center" width="50%">
 <br>
 <strong>🎯 Project Impact</strong>
-<br><br>
+<br>
 <em>Delivered exceptional value and operational efficiency that exceeded client expectations, establishing a new standard for automotive business management systems.</em>
+<br>
 </td>
 </tr>
 </table>
@@ -249,6 +255,7 @@ flet run src/main.py
 <table>
 <tr>
 <td align="center" width="100%">
+<br>
 <img width="150" height="150" src="https://github.com/fekikarim.png" alt="Karim Feki" style="border-radius: 50%;">
 <br><br>
 <img src="https://img.shields.io/badge/Lead_Developer-Karim_Feki-blue?style=for-the-badge&logo=github&logoColor=white" alt="Developer Badge">
@@ -266,24 +273,28 @@ flet run src/main.py
 <strong>🎯 Full-Stack Development</strong>
 <br>
 <em>End-to-end application architecture, from database design to user interface implementation</em>
+<br>
 </td>
 <td align="center" width="25%">
 <br>
 <strong>🎨 UI/UX Design</strong>
 <br>
 <em>Modern interface design with focus on user experience and accessibility</em>
+<br>
 </td>
 <td align="center" width="25%">
 <br>
 <strong>📊 Database Architecture</strong>
 <br>
 <em>Optimized SQLite database design with efficient queries and data integrity</em>
+<br>
 </td>
 <td align="center" width="25%">
 <br>
 <strong>🔧 System Optimization</strong>
 <br>
 <em>Performance tuning and code optimization for maximum efficiency</em>
+<br>
 </td>
 </tr>
 </table>
@@ -316,7 +327,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 <a href="mailto:feki.karim28@gmail.com">
 <img src="https://skillicons.dev/icons?i=gmail" alt="Email">
 </a>
-<br><br>
+<br>
 <strong>📧 Direct Email</strong>
 <br>
 <em>For project inquiries and collaboration opportunities</em>
@@ -325,7 +336,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 <a href="https://www.linkedin.com/in/karimfeki/">
 <img src="https://skillicons.dev/icons?i=linkedin" alt="LinkedIn">
 </a>
-<br><br>
+<br>
 <strong>💼 Professional Network</strong>
 <br>
 <em>Connect for business opportunities and networking</em>
@@ -334,7 +345,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 <a href="https://github.com/fekikarim">
 <img src="https://skillicons.dev/icons?i=github" alt="GitHub">
 </a>
-<br><br>
+<br>
 <strong>💻 Open Source</strong>
 <br>
 <em>Explore projects and contribute to development</em>
@@ -362,6 +373,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 <strong>📱 Cross-Platform Applications</strong>
 <br>
 <em>Desktop and mobile applications that work seamlessly across all platforms</em>
+<br>
 </td>
 <td align="center" width="50%">
 <br>
@@ -373,6 +385,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 <strong>🔧 System Integration</strong>
 <br>
 <em>Seamless integration of existing systems with new technologies and platforms</em>
+<br>
 </td>
 </tr>
 <tr>
@@ -381,6 +394,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 <strong>📊 Business Analytics Solutions</strong>
 <br>
 <em>Data-driven insights and reporting systems to optimize your business operations and decision-making</em>
+<br>
 </td>
 </tr>
 </table>
@@ -396,24 +410,28 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 <strong>✨ Quality Assured</strong>
 <br>
 <em>High-quality code and thorough testing</em>
+<br>
 </td>
 <td align="center" width="25%">
 <br>
 <strong>🛠️ Ongoing Support</strong>
 <br>
 <em>Continuous maintenance and updates</em>
+<br>
 </td>
 <td align="center" width="25%">
 <br>
 <strong>⏰ Timely Delivery</strong>
 <br>
 <em>Projects delivered on schedule</em>
+<br>
 </td>
 <td align="center" width="25%">
 <br>
 <strong>💬 Clear Communication</strong>
 <br>
 <em>Regular updates and transparency</em>
+<br>
 </td>
 </tr>
 </table>
