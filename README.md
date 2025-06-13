@@ -4,13 +4,14 @@
 
 ### *Professional Motor Management System*
 
+<img width="180" src="src/assets/logo/mallouka_motors_logo.svg" alt="Mallouka Motors Logo">
+<br>
 <img width="500" src="src/assets/demo/demo_mallouka_motors.gif" alt="Mallouka Motors Demo">
 
-<img width="180" src="src/assets/logo/mallouka_motors_logo.svg" alt="Mallouka Motors Logo">
-
-[![Flet](https://img.shields.io/badge/Flet-0.25.2-blue?style=for-the-badge&logo=python)](https://flet.dev/docs/getting-started)
-[![SQLite](https://img.shields.io/badge/SQLite-3.47.2-003B57?style=for-the-badge&logo=sqlite)](https://sqlite.org)
-[![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
+[![Python](https://skillicons.dev/icons?i=python)](https://python.org)
+[![Flet](https://skillicons.dev/icons?i=flet)](https://flet.dev)
+[![SQLite](https://skillicons.dev/icons?i=sqlite)](https://sqlite.org)
+<br>
 [![License](https://img.shields.io/badge/License-MIT-brightgreen?style=for-the-badge)](LICENSE)
 
 ---
@@ -90,9 +91,9 @@ This project represents a successful freelance collaboration between **Karim Fek
 <div align="center">
 
 ### Core Technologies
-[![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
-[![Flet](https://img.shields.io/badge/Flet-0.25.2-blue?style=for-the-badge&logo=flutter)](https://flet.dev)
-[![SQLite](https://img.shields.io/badge/SQLite-Database-003B57?style=for-the-badge&logo=sqlite)](https://sqlite.org)
+[![Python](https://skillicons.dev/icons?i=python)](https://python.org)
+[![Flet](https://skillicons.dev/icons?i=flet)](https://flet.dev)
+[![SQLite](https://skillicons.dev/icons?i=sqlite)](https://sqlite.org)
 
 ### Key Libraries & Tools
 [![ReportLab](https://img.shields.io/badge/ReportLab-PDF_Generation-red?style=for-the-badge)](https://reportlab.com)
@@ -221,15 +222,13 @@ flet run src/main.py
 <table>
 <tr>
 <td align="center" width="50%">
-<img src="https://img.shields.io/badge/Client-Mallouka_Motors-gold?style=for-the-badge&logo=handshake&logoColor=white" alt="Client Badge">
-<br><br>
+<br>
 <strong>🏢 Mallouka Motors</strong>
 <br><br>
 <em>For trusting us with their digital transformation journey and providing the opportunity to create this comprehensive business solution that revolutionizes motor dealership operations.</em>
 </td>
 <td align="center" width="50%">
-<img src="https://img.shields.io/badge/Partnership-Success_Story-brightgreen?style=for-the-badge&logo=trophy&logoColor=white" alt="Success Badge">
-<br><br>
+<br>
 <strong>🎯 Project Impact</strong>
 <br><br>
 <em>Delivered exceptional value and operational efficiency that exceeded client expectations, establishing a new standard for automotive business management systems.</em>
@@ -261,29 +260,25 @@ flet run src/main.py
 <table>
 <tr>
 <td align="center" width="25%">
-<img src="https://img.shields.io/badge/Full_Stack-Development-FF6B6B?style=for-the-badge&logo=code&logoColor=white" alt="Full Stack">
-<br><br>
+<br>
 <strong>🎯 Full-Stack Development</strong>
 <br>
 <em>End-to-end application architecture, from database design to user interface implementation</em>
 </td>
 <td align="center" width="25%">
-<img src="https://img.shields.io/badge/UI%2FUX-Design-4ECDC4?style=for-the-badge&logo=figma&logoColor=white" alt="UI/UX">
-<br><br>
+<br>
 <strong>🎨 UI/UX Design</strong>
 <br>
 <em>Modern interface design with focus on user experience and accessibility</em>
 </td>
 <td align="center" width="25%">
-<img src="https://img.shields.io/badge/Database-Architecture-45B7D1?style=for-the-badge&logo=database&logoColor=white" alt="Database">
-<br><br>
+<br>
 <strong>📊 Database Architecture</strong>
 <br>
 <em>Optimized SQLite database design with efficient queries and data integrity</em>
 </td>
 <td align="center" width="25%">
-<img src="https://img.shields.io/badge/System-Optimization-96CEB4?style=for-the-badge&logo=speedometer&logoColor=white" alt="Optimization">
-<br><br>
+<br>
 <strong>🔧 System Optimization</strong>
 <br>
 <em>Performance tuning and code optimization for maximum efficiency</em>
@@ -318,6 +313,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 <td align="center" width="33.33%">
 <a href="mailto:feki.karim28@gmail.com">
 <img src="https://skillicons.dev/icons?i=gmail" alt="Email">
+</a>
 <br><br>
 <strong>📧 Direct Email</strong>
 <br>
@@ -355,27 +351,23 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 <table>
 <tr>
 <td align="center" width="50%">
-<img src="https://img.shields.io/badge/Custom_Software-Development-FF6B6B?style=for-the-badge&logo=code&logoColor=white" alt="Custom Software">
-<br><br>
+<br>
 <strong>🚀 Custom Software Development</strong>
 <br>
 <em>Tailored solutions built with modern technologies to meet your specific business requirements</em>
 <br><br>
-<img src="https://img.shields.io/badge/Cross_Platform-Applications-4ECDC4?style=for-the-badge&logo=mobile&logoColor=white" alt="Cross Platform">
-<br><br>
+<br>
 <strong>📱 Cross-Platform Applications</strong>
 <br>
 <em>Desktop and mobile applications that work seamlessly across all platforms</em>
 </td>
 <td align="center" width="50%">
-<img src="https://img.shields.io/badge/UI%2FUX-Design-45B7D1?style=for-the-badge&logo=figma&logoColor=white" alt="UI/UX Design">
-<br><br>
+<br>
 <strong>🎨 UI/UX Design</strong>
 <br>
 <em>Modern, intuitive interfaces designed with user experience and accessibility in mind</em>
 <br><br>
-<img src="https://img.shields.io/badge/System-Integration-96CEB4?style=for-the-badge&logo=network&logoColor=white" alt="System Integration">
-<br><br>
+<br>
 <strong>🔧 System Integration</strong>
 <br>
 <em>Seamless integration of existing systems with new technologies and platforms</em>
@@ -383,8 +375,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 </tr>
 <tr>
 <td align="center" colspan="2">
-<img src="https://img.shields.io/badge/Business_Analytics-Solutions-FFA07A?style=for-the-badge&logo=chart-line&logoColor=white" alt="Business Analytics">
-<br><br>
+<br>
 <strong>📊 Business Analytics Solutions</strong>
 <br>
 <em>Data-driven insights and reporting systems to optimize your business operations and decision-making</em>
@@ -399,29 +390,25 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 <table>
 <tr>
 <td align="center" width="25%">
-<img src="https://img.shields.io/badge/Quality-Guaranteed-gold?style=for-the-badge&logo=star&logoColor=white" alt="Quality">
-<br><br>
+<br>
 <strong>✨ Quality Assured</strong>
 <br>
 <em>High-quality code and thorough testing</em>
 </td>
 <td align="center" width="25%">
-<img src="https://img.shields.io/badge/Support-24%2F7-brightgreen?style=for-the-badge&logo=support&logoColor=white" alt="Support">
-<br><br>
+<br>
 <strong>🛠️ Ongoing Support</strong>
 <br>
 <em>Continuous maintenance and updates</em>
 </td>
 <td align="center" width="25%">
-<img src="https://img.shields.io/badge/Delivery-On_Time-blue?style=for-the-badge&logo=clock&logoColor=white" alt="Delivery">
-<br><br>
+<br>
 <strong>⏰ Timely Delivery</strong>
 <br>
 <em>Projects delivered on schedule</em>
 </td>
 <td align="center" width="25%">
-<img src="https://img.shields.io/badge/Communication-Clear-purple?style=for-the-badge&logo=chat&logoColor=white" alt="Communication">
-<br><br>
+<br>
 <strong>💬 Clear Communication</strong>
 <br>
 <em>Regular updates and transparency</em>
