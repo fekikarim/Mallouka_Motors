@@ -9,7 +9,9 @@
 <img width="500" src="src/assets/demo/demo_mallouka_motors.gif" alt="Mallouka Motors Demo">
 
 [![Python](https://skillicons.dev/icons?i=python)](https://python.org)
-[![Flet](https://skillicons.dev/icons?i=flet)](https://flet.dev)
+<a href="https://flet.dev">
+ <img src="https://flet.dev/img/logo.svg" alt="Flet Logo" width="50">
+</a>
 [![SQLite](https://skillicons.dev/icons?i=sqlite)](https://sqlite.org)
 <br>
 [![License](https://img.shields.io/badge/License-MIT-brightgreen?style=for-the-badge)](LICENSE)
