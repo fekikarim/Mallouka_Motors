@@ -316,9 +316,8 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 <table>
 <tr>
 <td align="center" width="33.33%">
-<a href="mailto:feki.karim@outlook.com">
-<img src="https://img.shields.io/badge/Email-feki.karim@outlook.com-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email">
-</a>
+<a href="mailto:feki.karim28@gmail.com">
+<img src="https://skillicons.dev/icons?i=gmail" alt="Email">
 <br><br>
 <strong>📧 Direct Email</strong>
 <br>
@@ -326,7 +325,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 </td>
 <td align="center" width="33.33%">
 <a href="https://www.linkedin.com/in/karimfeki/">
-<img src="https://img.shields.io/badge/LinkedIn-Karim_Feki-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn">
+<img src="https://skillicons.dev/icons?i=linkedin" alt="LinkedIn">
 </a>
 <br><br>
 <strong>💼 Professional Network</strong>
@@ -335,7 +334,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 </td>
 <td align="center" width="33.33%">
 <a href="https://github.com/fekikarim">
-<img src="https://img.shields.io/badge/GitHub-fekikarim-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub">
+<img src="https://skillicons.dev/icons?i=github" alt="GitHub">
 </a>
 <br><br>
 <strong>💻 Open Source</strong>
