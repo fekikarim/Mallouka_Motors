@@ -218,15 +218,78 @@ flet run src/main.py
 
 ### 🤝 Special Thanks
 
-**Mallouka Motors** - For trusting us with their digital transformation journey and providing the opportunity to create this comprehensive business solution.
+<table>
+<tr>
+<td align="center" width="50%">
+<img src="https://img.shields.io/badge/Client-Mallouka_Motors-gold?style=for-the-badge&logo=handshake&logoColor=white" alt="Client Badge">
+<br><br>
+<strong>🏢 Mallouka Motors</strong>
+<br><br>
+<em>For trusting us with their digital transformation journey and providing the opportunity to create this comprehensive business solution that revolutionizes motor dealership operations.</em>
+</td>
+<td align="center" width="50%">
+<img src="https://img.shields.io/badge/Partnership-Success_Story-brightgreen?style=for-the-badge&logo=trophy&logoColor=white" alt="Success Badge">
+<br><br>
+<strong>🎯 Project Impact</strong>
+<br><br>
+<em>Delivered exceptional value and operational efficiency that exceeded client expectations, establishing a new standard for automotive business management systems.</em>
+</td>
+</tr>
+</table>
+
+</div>
+
+---
 
 ### 👨‍💻 Development Team
 
-**Karim Feki** - Lead Developer & Project Architect
-- 🎯 Full-stack development
-- 🎨 UI/UX design
-- 📊 Database architecture
-- 🔧 System optimization
+<div align="center">
+
+<table>
+<tr>
+<td align="center" width="100%">
+<img width="150" height="150" src="https://github.com/fekikarim.png" alt="Karim Feki" style="border-radius: 50%;">
+<br><br>
+<img src="https://img.shields.io/badge/Lead_Developer-Karim_Feki-blue?style=for-the-badge&logo=github&logoColor=white" alt="Developer Badge">
+<br><br>
+<strong>🚀 Project Architect & Full-Stack Developer</strong>
+<br><br>
+</td>
+</tr>
+</table>
+
+<table>
+<tr>
+<td align="center" width="25%">
+<img src="https://img.shields.io/badge/Full_Stack-Development-FF6B6B?style=for-the-badge&logo=code&logoColor=white" alt="Full Stack">
+<br><br>
+<strong>🎯 Full-Stack Development</strong>
+<br>
+<em>End-to-end application architecture, from database design to user interface implementation</em>
+</td>
+<td align="center" width="25%">
+<img src="https://img.shields.io/badge/UI%2FUX-Design-4ECDC4?style=for-the-badge&logo=figma&logoColor=white" alt="UI/UX">
+<br><br>
+<strong>🎨 UI/UX Design</strong>
+<br>
+<em>Modern interface design with focus on user experience and accessibility</em>
+</td>
+<td align="center" width="25%">
+<img src="https://img.shields.io/badge/Database-Architecture-45B7D1?style=for-the-badge&logo=database&logoColor=white" alt="Database">
+<br><br>
+<strong>📊 Database Architecture</strong>
+<br>
+<em>Optimized SQLite database design with efficient queries and data integrity</em>
+</td>
+<td align="center" width="25%">
+<img src="https://img.shields.io/badge/System-Optimization-96CEB4?style=for-the-badge&logo=speedometer&logoColor=white" alt="Optimization">
+<br><br>
+<strong>🔧 System Optimization</strong>
+<br>
+<em>Performance tuning and code optimization for maximum efficiency</em>
+</td>
+</tr>
+</table>
 
 </div>
 
@@ -250,17 +313,124 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 ### 🤝 Let's Connect!
 
-[![Email](https://img.shields.io/badge/Email-feki.karim@outlook.com-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:feki.karim@outlook.com)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Karim_Feki-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/karimfeki/)
-[![GitHub](https://img.shields.io/badge/GitHub-fekikarim-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/fekikarim)
+<table>
+<tr>
+<td align="center" width="33.33%">
+<a href="mailto:feki.karim@outlook.com">
+<img src="https://img.shields.io/badge/Email-feki.karim@outlook.com-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email">
+</a>
+<br><br>
+<strong>📧 Direct Email</strong>
+<br>
+<em>For project inquiries and collaboration opportunities</em>
+</td>
+<td align="center" width="33.33%">
+<a href="https://www.linkedin.com/in/karimfeki/">
+<img src="https://img.shields.io/badge/LinkedIn-Karim_Feki-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn">
+</a>
+<br><br>
+<strong>💼 Professional Network</strong>
+<br>
+<em>Connect for business opportunities and networking</em>
+</td>
+<td align="center" width="33.33%">
+<a href="https://github.com/fekikarim">
+<img src="https://img.shields.io/badge/GitHub-fekikarim-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub">
+</a>
+<br><br>
+<strong>💻 Open Source</strong>
+<br>
+<em>Explore projects and contribute to development</em>
+</td>
+</tr>
+</table>
+
+</div>
+
+---
 
 ### 💼 Professional Services
 
-- **🚀 Custom Software Development**
-- **📱 Cross-Platform Applications**
-- **🎨 UI/UX Design**
-- **🔧 System Integration**
-- **📊 Business Analytics Solutions**
+<div align="center">
+
+<table>
+<tr>
+<td align="center" width="50%">
+<img src="https://img.shields.io/badge/Custom_Software-Development-FF6B6B?style=for-the-badge&logo=code&logoColor=white" alt="Custom Software">
+<br><br>
+<strong>🚀 Custom Software Development</strong>
+<br>
+<em>Tailored solutions built with modern technologies to meet your specific business requirements</em>
+<br><br>
+<img src="https://img.shields.io/badge/Cross_Platform-Applications-4ECDC4?style=for-the-badge&logo=mobile&logoColor=white" alt="Cross Platform">
+<br><br>
+<strong>📱 Cross-Platform Applications</strong>
+<br>
+<em>Desktop and mobile applications that work seamlessly across all platforms</em>
+</td>
+<td align="center" width="50%">
+<img src="https://img.shields.io/badge/UI%2FUX-Design-45B7D1?style=for-the-badge&logo=figma&logoColor=white" alt="UI/UX Design">
+<br><br>
+<strong>🎨 UI/UX Design</strong>
+<br>
+<em>Modern, intuitive interfaces designed with user experience and accessibility in mind</em>
+<br><br>
+<img src="https://img.shields.io/badge/System-Integration-96CEB4?style=for-the-badge&logo=network&logoColor=white" alt="System Integration">
+<br><br>
+<strong>🔧 System Integration</strong>
+<br>
+<em>Seamless integration of existing systems with new technologies and platforms</em>
+</td>
+</tr>
+<tr>
+<td align="center" colspan="2">
+<img src="https://img.shields.io/badge/Business_Analytics-Solutions-FFA07A?style=for-the-badge&logo=chart-line&logoColor=white" alt="Business Analytics">
+<br><br>
+<strong>📊 Business Analytics Solutions</strong>
+<br>
+<em>Data-driven insights and reporting systems to optimize your business operations and decision-making</em>
+</td>
+</tr>
+</table>
+
+<br>
+
+### 🎯 Why Choose Our Services?
+
+<table>
+<tr>
+<td align="center" width="25%">
+<img src="https://img.shields.io/badge/Quality-Guaranteed-gold?style=for-the-badge&logo=star&logoColor=white" alt="Quality">
+<br><br>
+<strong>✨ Quality Assured</strong>
+<br>
+<em>High-quality code and thorough testing</em>
+</td>
+<td align="center" width="25%">
+<img src="https://img.shields.io/badge/Support-24%2F7-brightgreen?style=for-the-badge&logo=support&logoColor=white" alt="Support">
+<br><br>
+<strong>🛠️ Ongoing Support</strong>
+<br>
+<em>Continuous maintenance and updates</em>
+</td>
+<td align="center" width="25%">
+<img src="https://img.shields.io/badge/Delivery-On_Time-blue?style=for-the-badge&logo=clock&logoColor=white" alt="Delivery">
+<br><br>
+<strong>⏰ Timely Delivery</strong>
+<br>
+<em>Projects delivered on schedule</em>
+</td>
+<td align="center" width="25%">
+<img src="https://img.shields.io/badge/Communication-Clear-purple?style=for-the-badge&logo=chat&logoColor=white" alt="Communication">
+<br><br>
+<strong>💬 Clear Communication</strong>
+<br>
+<em>Regular updates and transparency</em>
+</td>
+</tr>
+</table>
+
+</div>
 
 ---
 
