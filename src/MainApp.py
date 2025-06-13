@@ -27,9 +27,18 @@ class MainApp:
         
         self.ub = AppBarMaster(self.page, self, self.themer, self.APP_NAME, Icons.DASHBOARD)
 
-        # page configuration
+        # Enhanced page configuration
         self.page.adaptive = True
-        self.page.padding = 15
+        self.page.padding = 20
+        self.page.spacing = 0
+        self.page.bgcolor = colors.BACKGROUND
+        self.page.scroll = ScrollMode.AUTO
+
+        # Window configuration
+        self.page.window.width = 1200
+        self.page.window.height = 800
+        self.page.window.min_width = 800
+        self.page.window.min_height = 600
 
 
 

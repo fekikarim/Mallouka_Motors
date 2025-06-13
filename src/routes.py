@@ -12,13 +12,41 @@ class Routes:
         self.page.views.clear()
 
         if self.page.route == "/":
+            # Refresh dashboard data when navigating to it
+            if hasattr(self.main_app.dashboard, 'load_dashboard_data'):
+                self.main_app.dashboard.load_dashboard_data()
             self.page.views.append(self.main_view)
         elif self.page.route == "/motors":
+            # Refresh motors data when navigating to it
+            if hasattr(self.main_app.motors, 'load_motors'):
+                self.main_app.motors.load_motors()
             self.page.views.append(self.motors_view)
+            # Clear form after the view is added and controls are mounted
+            self.page.update()
+            if hasattr(self.main_app.motors, 'clear_form'):
+                self.main_app.motors.clear_form()
         elif self.page.route == "/clients":
+            # Refresh clients data when navigating to it
+            if hasattr(self.main_app.clients, 'load_clients'):
+                self.main_app.clients.load_clients()
             self.page.views.append(self.clients_view)
+            # Clear form after the view is added and controls are mounted
+            self.page.update()
+            if hasattr(self.main_app.clients, 'clear_form'):
+                self.main_app.clients.clear_form()
         elif self.page.route == "/billing":
+            # Refresh billing data when navigating to it
+            if hasattr(self.main_app.billing, 'load_billings'):
+                self.main_app.billing.load_billings()
+            if hasattr(self.main_app.billing, '_load_clients_for_dropdown'):
+                self.main_app.billing._load_clients_for_dropdown()
+            if hasattr(self.main_app.billing, 'refresh_data'):
+                self.main_app.billing.refresh_data()
             self.page.views.append(self.billings_view)
+            # Clear form after the view is added and controls are mounted
+            self.page.update()
+            if hasattr(self.main_app.billing, 'clear_form'):
+                self.main_app.billing.clear_form()
         elif self.page.route == "/settings":
             self.page.views.append(self.settings_view)
 

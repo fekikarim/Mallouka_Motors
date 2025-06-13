@@ -1,9 +1,18 @@
 import sqlite3
 from datetime import datetime
 from flet import *
+import os
 
 def get_db_connection():
-    conn = sqlite3.connect('storage/data/allocasseauto.db', timeout=10)
+    # Use a local database file for development
+    db_path = os.getenv("FLET_APP_STORAGE_DATA")
+    if db_path is None:
+        # Fallback to local directory if environment variable is not set
+        db_path = os.path.join(os.path.dirname(__file__), '..', 'storage', 'data')
+        os.makedirs(db_path, exist_ok=True)
+
+    db_file = os.path.join(db_path, 'allocasseauto.db')
+    conn = sqlite3.connect(db_file, timeout=10)
     return conn
 
 #######################

@@ -1,54 +1,141 @@
-from reportlab.lib.pagesizes import letter
-from reportlab.pdfgen import canvas
-from reportlab.lib.utils import ImageReader
-from reportlab.lib import colors
-from reportlab.platypus import Table, TableStyle
 import os
-from db import get_billing_data, get_motors_data
 from datetime import datetime
 
+# Check for reportlab dependency
+try:
+    from reportlab.lib.pagesizes import letter
+    from reportlab.pdfgen import canvas
+    from reportlab.lib.utils import ImageReader
+    from reportlab.lib import colors
+    from reportlab.platypus import Table, TableStyle
+    REPORTLAB_AVAILABLE = True
+except ImportError:
+    REPORTLAB_AVAILABLE = False
+    print("Warning: reportlab not installed. PDF generation will not work.")
+
+from db import get_billing_data, get_motors_data
+
 def generate_billing_pdf(billing_ref):
-    # Fetch billing and motors data from the database
-    billing_data = get_billing_data(billing_ref)
-    motors_data = get_motors_data(billing_ref)
+    """
+    Generate a professional PDF invoice for the given billing reference.
 
-    # Determine the default download directory
-    download_dir = os.path.join(os.path.expanduser('~'), 'Downloads')
-    output_path = os.path.join(download_dir, f"billing_{billing_ref}.pdf")
+    Args:
+        billing_ref (str): The billing reference number
 
-    # Create a PDF canvas
-    c = canvas.Canvas(output_path, pagesize=letter)
-    width, height = letter
+    Returns:
+        str: Path to generated PDF file or error message
+    """
 
-    # Add logos
-    add_logos(c, width, height)
+    if not REPORTLAB_AVAILABLE:
+        error_msg = "PDF generation requires reportlab library. Please install it with: pip install reportlab"
+        print(error_msg)
+        return error_msg
 
-    draw_header(c, billing_data, width, height)
+    try:
+        # Validate billing reference
+        if not billing_ref:
+            raise ValueError("Billing reference cannot be empty")
 
-    # Add itemized billing table
-    add_billing_items_table(c, motors_data, width, height)
+        # Fetch billing and motors data from the database
+        billing_data = get_billing_data(billing_ref)
+        if not billing_data:
+            raise ValueError(f"No billing data found for reference: {billing_ref}")
 
-    # Add payment and vehicle information
-    add_payment_info(c, billing_data, height)
+        motors_data = get_motors_data(billing_ref)
+        if not motors_data:
+            raise ValueError(f"No motors data found for billing reference: {billing_ref}")
 
-    # Add terms and conditions
-    terms_y_position = add_terms_and_conditions(c, width, height)
-    
-    # Add signature
-    add_signature(c, width, terms_y_position)
+        # Determine output directory with fallback options
+        output_path = get_output_path(billing_ref)
 
-    # Save the PDF
-    c.save()
+        # Ensure output directory exists
+        os.makedirs(os.path.dirname(output_path), exist_ok=True)
+
+        # Create a PDF canvas
+        c = canvas.Canvas(output_path, pagesize=letter)
+        width, height = letter
+
+        # Add logos (with error handling for missing files)
+        add_logos(c, width, height)
+
+        # Draw header with billing information
+        draw_header(c, billing_data, width, height)
+
+        # Add itemized billing table
+        add_billing_items_table(c, motors_data, width, height)
+
+        # Add payment and vehicle information
+        add_payment_info(c, billing_data, height)
+
+        # Add terms and conditions
+        terms_y_position = add_terms_and_conditions(c, width, height)
+
+        # Add signature (with error handling for missing files)
+        add_signature(c, width, terms_y_position)
+
+        # Save the PDF
+        c.save()
+
+        print(f"PDF generated successfully: {output_path}")
+        return output_path
+
+    except Exception as e:
+        error_msg = f"Error generating PDF for billing {billing_ref}: {str(e)}"
+        print(error_msg)
+        return error_msg
+
+def get_output_path(billing_ref):
+    """
+    Determine the best output path for the PDF file.
+
+    Args:
+        billing_ref (str): The billing reference number
+
+    Returns:
+        str: Full path for the output PDF file
+    """
+    # Try multiple directory options in order of preference
+    possible_dirs = [
+        os.getenv("FLET_APP_STORAGE_DATA"),  # Flet storage directory
+        os.path.join(os.path.expanduser('~'), 'Downloads'),  # User Downloads
+        os.path.join(os.path.expanduser('~'), 'Documents'),  # User Documents
+        os.getcwd(),  # Current working directory
+        os.path.join(os.getcwd(), 'output'),  # Output subdirectory
+    ]
+
+    for directory in possible_dirs:
+        if directory and os.path.exists(directory):
+            try:
+                # Test if we can write to this directory
+                test_file = os.path.join(directory, 'test_write.tmp')
+                with open(test_file, 'w') as f:
+                    f.write('test')
+                os.remove(test_file)
+                return os.path.join(directory, f"facture_{billing_ref}.pdf")
+            except (OSError, PermissionError):
+                continue
+
+    # Fallback to current directory
+    return os.path.join(os.getcwd(), f"facture_{billing_ref}.pdf")
 
 
 def add_logos(c, width, height):
-    # Paths to logo images
-    mallouka_logo_path = os.path.join('src', 'assets', 'logo', 'mallouka_motors_logo.png')
-    allo_casse_logo_path = os.path.join('src', 'assets', 'logo', 'allo_casse_auto_logo.jpg')
+    """
+    Add company logos and title to the PDF with error handling for missing files.
 
-    # Load logo images
-    mallouka_logo = ImageReader(mallouka_logo_path)
-    allo_casse_logo = ImageReader(allo_casse_logo_path)
+    Args:
+        c: ReportLab canvas object
+        width: Page width
+        height: Page height
+    """
+    # Try multiple possible logo paths
+    possible_logo_paths = [
+        os.path.join(os.getenv("FLET_APP_STORAGE_DATA", ""), 'mallouka_motors_logo.png'),
+        os.path.join('src', 'assets', 'logo', 'mallouka_motors_logo.png'),
+        os.path.join('assets', 'logo', 'mallouka_motors_logo.png'),
+        os.path.join(os.getcwd(), 'mallouka_motors_logo.png'),
+        os.path.join(os.getcwd(), 'src', 'assets', 'logo', 'mallouka_motors_logo.png'),
+    ]
 
     # Define logo dimensions
     logo_width = 80
@@ -56,21 +143,45 @@ def add_logos(c, width, height):
 
     # Positions for logos
     left_logo_x = 40
-    right_logo_x = width - logo_width - 40
     logo_y = height - logo_height - 20  # Adjust top margin
 
-    # Draw logos
-    c.drawImage(mallouka_logo, left_logo_x, logo_y, width=logo_width, height=logo_height, mask='auto')
-    c.drawImage(allo_casse_logo, right_logo_x, logo_y, width=logo_width, height=logo_height, mask='auto')
+    # Try to load and draw the logo
+    logo_loaded = False
+    for logo_path in possible_logo_paths:
+        if logo_path and os.path.exists(logo_path):
+            try:
+                mallouka_logo = ImageReader(logo_path)
+                c.drawImage(mallouka_logo, left_logo_x, logo_y, width=logo_width, height=logo_height, mask='auto')
+                logo_loaded = True
+                print(f"Logo loaded successfully from: {logo_path}")
+                break
+            except Exception as e:
+                print(f"Failed to load logo from {logo_path}: {e}")
+                continue
 
-    # Define title
+    if not logo_loaded:
+        print("Warning: Could not load company logo. PDF will be generated without logo.")
+        # Draw a placeholder rectangle
+        c.setStrokeColor(colors.grey)
+        c.setFillColor(colors.lightgrey)
+        c.rect(left_logo_x, logo_y, logo_width, logo_height, fill=1, stroke=1)
+
+        # Add "LOGO" text in the placeholder
+        c.setFillColor(colors.black)
+        c.setFont('Helvetica', 12)
+        text_x = left_logo_x + logo_width/2 - c.stringWidth("LOGO", 'Helvetica', 12)/2
+        text_y = logo_y + logo_height/2 - 6
+        c.drawString(text_x, text_y, "LOGO")
+
+    # Define and draw title
     title = "Société Mallouka Motors"
     c.setFont('Helvetica-Bold', 22)
+    c.setFillColor(colors.black)
 
-    # Calculate title position to center it between the logos
+    # Calculate title position to center it
     title_width = c.stringWidth(title, 'Helvetica-Bold', 22)
-    title_x = (left_logo_x + logo_width + right_logo_x) / 2 - title_width / 2
-    title_y = logo_y + (logo_height / 2) - 7  # Center the title vertically with the logos
+    title_x = (width - title_width) / 2
+    title_y = logo_y + (logo_height / 2) - 7  # Center the title vertically with the logo
 
     # Draw the title
     c.drawString(title_x, title_y, title)
@@ -258,13 +369,61 @@ def add_terms_and_conditions(c, width, height):
     return y # Return the final y position after drawing terms
 
 def add_signature(c, width, terms_y_position):
-    signature_path = os.path.join('src', 'assets', 'signature.png')
-    if os.path.exists(signature_path):
-        signature = ImageReader(signature_path)
-        signature_width = 150  
-        signature_height = 75  
-        x = width - signature_width - 40  # Right align with margin
-        y = terms_y_position - signature_height - 10 # Position below terms with some margin
-        c.drawImage(signature, x, y, width=signature_width, height=signature_height, mask='auto')
-    else:
-        print(f"Signature image not found at {signature_path}")
+    """
+    Add company signature to the PDF with error handling for missing files.
+
+    Args:
+        c: ReportLab canvas object
+        width: Page width
+        terms_y_position: Y position after terms and conditions
+    """
+    # Try multiple possible signature paths
+    possible_signature_paths = [
+        os.path.join(os.getenv("FLET_APP_STORAGE_DATA", ""), 'signature.png'),
+        os.path.join('src', 'assets', 'signature.png'),
+        os.path.join('assets', 'signature.png'),
+        os.path.join(os.getcwd(), 'signature.png'),
+        os.path.join(os.getcwd(), 'src', 'assets', 'signature.png'),
+    ]
+
+    signature_width = 150
+    signature_height = 75
+    x = width - signature_width - 40  # Right align with margin
+    y = terms_y_position - signature_height - 10  # Position below terms with some margin
+
+    # Try to load and draw the signature
+    signature_loaded = False
+    for signature_path in possible_signature_paths:
+        if signature_path and os.path.exists(signature_path):
+            try:
+                signature = ImageReader(signature_path)
+                c.drawImage(signature, x, y, width=signature_width, height=signature_height, mask='auto')
+                signature_loaded = True
+                print(f"Signature loaded successfully from: {signature_path}")
+                break
+            except Exception as e:
+                print(f"Failed to load signature from {signature_path}: {e}")
+                continue
+
+    if not signature_loaded:
+        print("Warning: Could not load signature. Adding text signature instead.")
+        # Add a text-based signature as fallback
+        c.setFont('Helvetica-Bold', 12)
+        c.setFillColor(colors.black)
+
+        # Draw signature box
+        c.setStrokeColor(colors.grey)
+        c.rect(x, y, signature_width, signature_height, fill=0, stroke=1)
+
+        # Add signature text
+        signature_text = "Signature & Cachet"
+        text_x = x + signature_width/2 - c.stringWidth(signature_text, 'Helvetica-Bold', 12)/2
+        text_y = y + signature_height/2 - 6
+        c.drawString(text_x, text_y, signature_text)
+
+        # Add company name
+        c.setFont('Helvetica', 10)
+        company_text = "Mallouka Motors"
+        text_x = x + signature_width/2 - c.stringWidth(company_text, 'Helvetica', 10)/2
+        text_y = y + 15
+        c.drawString(text_x, text_y, company_text)
