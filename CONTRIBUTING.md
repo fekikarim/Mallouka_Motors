@@ -10,7 +10,7 @@ Thank you for your interest in contributing to **Mallouka Motors**!
 
 ### Setup
 1. Fork the repository
-2. Clone your fork: `git clone https://github.com/YOUR_USERNAME/Mallouka_Motors.git`
+2. Clone your fork: `git clone https://github.com/fekikarim/Mallouka_Motors.git`
 3. Create virtual environment: `python -m venv venv`
 4. Activate it: `venv\Scripts\activate` (Windows)
 5. Install dependencies: `pip install -r requirements.txt`
